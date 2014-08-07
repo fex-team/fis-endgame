@@ -1,6 +1,6 @@
 {
   "name": "fis-endgame",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "endgame.js",
   "scripts": {
@@ -29,6 +29,6 @@
   "dependencies": {
     "fis": "1.7.14",
     "fis-parser-less": "0.1.1",
-    "fis-postpackager-simple": "0.0.19"
+    "fis-postpackager-simple": "0.0.x"
   }
 }
