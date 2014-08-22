@@ -3,8 +3,6 @@ var fis = module.exports = require('fis');
 fis.cli.name = 'fis-endgame';
 fis.cli.info = fis.util.readJSON(__dirname + '/package.json');
 
-fis.config.set('modules.postpackager', 'simple');
-
 fis.config.set('roadmap.path', [
     {
         reg: "**.html",
@@ -17,6 +15,11 @@ fis.config.merge({
     modules: {
         parser: {
             less: 'less'
+        },
+        postprocessor: {
+            js: 'region',
+            html: 'region',
+            css: 'region',
         },
         postpackager : ['simple']
     },
