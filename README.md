@@ -9,6 +9,7 @@ fis-endgame
 * [快速上手](#快速上手)
 * [性能优化](#性能优化)
 * [发布参数](#发布参数)
+* [游戏开发](#游戏开发)
 * [注意事项](#注意事项)
 * [更多资料](#更多资料)
 
@@ -224,6 +225,63 @@ eg release -Dompcd /path/to/publish
 由于添加了-D参数，FIS将会为所有静态资源路径添加domain信息，如 `/games/tiger/logo.png` 将会调整为 `http://end.baidu.com/games/tiger/logo.png`，因此使用-D参数构建后，本地如果需要预览则需要调整调试服务器端口并设置相应的HOST。
 
 具体各个参数的含义可以参考 `fis release -h`
+
+## 游戏开发
+
+eg拥有一个默认的游戏配置
+
+```javascript
+var GAME_ID = 'buyu';
+
+fis.config.set('roadmap.domain', 'http://bcs.pubbcsapp.com/endgame/box/' + GAME_ID);
+
+fis.config.get('roadmap.path').unshift(
+    {
+        reg: '**.html',
+        useDomain: true
+    },
+    {
+        reg: '**',
+        query: "?t=${timestamp}"
+    }
+);
+
+// fis.config.set('settings.postpackager.simple.autoCombine', true);
+
+fis.config.set('deploy', {
+    "publish" : {
+        bcs: {
+            host: 'bcs.duapp.com',
+            ak: 'ak',
+            sk: 'sk',
+            bucket: 'endgame'
+        },
+        to: '/box/' + GAME_ID
+    }
+});
+```
+
+这个配置中需要关注的是GAME_ID，每个游戏都应该拥有一个独立的GAME_ID
+
+其次是deploy配置中的ak与sk，需要设置为正式环境或测试环境的BCS授权密钥
+
+在完成以上配置后，只需要一条命令就可以完成EndGame的构建、优化与发布
+
+```bash
+eg release -Dopd publish #游戏默认使用时间戳方案，因此无需使用-m添加MD5戳
+```
+
+在执行完成后，可以直接访问BCS发布路径
+
+```
+http://bcs.pubbcsapp.com/endgame/box/buyu/index.html
+```
+
+同时你还可以通过watch与live功能实现本地修改实时上传至BCS环境，上传完成后还可以触发页面的自动刷新，加快开发效率
+
+```
+eg release -Dopd publish -wL
+```
 
 ## 更多资料
 
