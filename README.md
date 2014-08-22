@@ -233,7 +233,7 @@ eg拥有一个默认的游戏配置
 ```javascript
 var GAME_ID = 'buyu';
 
-fis.config.set('roadmap.domain', 'http://bcs.pubbcsapp.com/endgame/box/' + GAME_ID);
+fis.config.set('roadmap.domain', '/endgame/box/' + GAME_ID);
 
 fis.config.get('roadmap.path').unshift(
     {
@@ -257,6 +257,15 @@ fis.config.set('deploy', {
             bucket: 'endgame'
         },
         to: '/box/' + GAME_ID
+    },
+    "test" : {
+        bcs: {
+            host: 'bcs.duapp.com',
+            ak: 'ak-test',
+            sk: 'sk-test',
+            bucket: 'endgame'
+        },
+        to: '/box/' + GAME_ID
     }
 });
 ```
@@ -268,7 +277,8 @@ fis.config.set('deploy', {
 在完成以上配置后，只需要一条命令就可以完成EndGame的构建、优化与发布
 
 ```bash
-eg release -Dopd publish #游戏默认使用时间戳方案，因此无需使用-m添加MD5戳
+eg release -Dopd test #发布至预上线环境(可选)
+eg release -Dopd publish #发布至正式环境
 ```
 
 在执行完成后，可以直接访问BCS发布路径
