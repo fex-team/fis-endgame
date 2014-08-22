@@ -228,12 +228,12 @@ eg release -Dompcd /path/to/publish
 
 ## 游戏开发
 
-eg拥有一个默认的游戏配置
+eg拥有一个默认的游戏配置，以boxgame/buyu为例
 
 ```javascript
 var GAME_ID = 'buyu';
 
-fis.config.set('roadmap.domain', '/endgame/box/' + GAME_ID);
+fis.config.set('roadmap.domain', 'PLACE_HOLDER/endgame/box/' + GAME_ID);
 
 fis.config.get('roadmap.path').unshift(
     {
@@ -256,34 +256,43 @@ fis.config.set('deploy', {
             sk: 'sk',
             bucket: 'endgame'
         },
-        to: '/box/' + GAME_ID
+        to: '/box/' + GAME_ID,
+        replace : {
+            from : 'PLACE_HOLDER/endgame/box/',
+            to : '/endgame/box/'
+        }
     },
     "test" : {
         bcs: {
             host: 'bcs.duapp.com',
-            ak: 'ak-test',
-            sk: 'sk-test',
-            bucket: 'endgame'
+            ak: 'ak',
+            sk: 'sk',
+            bucket: 'endgamedev'
         },
-        to: '/box/' + GAME_ID
+        to: '/box/' + GAME_ID,
+        replace : {
+            from : 'PLACE_HOLDER/endgame/box/',
+            to : '/endgamedev/box/'
+        }
     }
 });
 ```
 
 这个配置中需要关注的是GAME_ID，每个游戏都应该拥有一个独立的GAME_ID
 
-其次是deploy配置中的ak与sk，需要设置为正式环境或测试环境的BCS授权密钥
+其次是deploy配置中的ak与sk，需要设置为正式环境和测试环境的BCS授权密钥
 
 在完成以上配置后，只需要一条命令就可以完成EndGame的构建、优化与发布
 
 ```bash
-eg release -Dopd test #发布至预上线环境(可选)
+eg release -Dopd test #发布至预上线环境
 eg release -Dopd publish #发布至正式环境
 ```
 
 在执行完成后，可以直接访问BCS发布路径
 
 ```
+http://bcs.pubbcsapp.com/endgamedev/box/buyu/index.html
 http://bcs.pubbcsapp.com/endgame/box/buyu/index.html
 ```
 
