@@ -228,61 +228,14 @@ eg release -Dompcd /path/to/publish
 
 ## 游戏开发
 
-eg拥有一个默认的游戏配置，以boxgame/buyu为例
+eg拥有一个默认的游戏配置，我们可以通过脚手架功能快速的启动一个游戏，以boxgame/buyu为例，我们执行
 
-```javascript
-var GAME_ID = 'buyu';
-
-fis.config.set('roadmap.domain', 'PLACE_HOLDER/endgame/box/' + GAME_ID);
-
-fis.config.get('roadmap.path').unshift(
-    {
-        reg: '**.html',
-        useDomain: true
-    },
-    {
-        reg: '**',
-        query: "?t=${timestamp}"
-    }
-);
-
-// fis.config.set('settings.postpackager.simple.autoCombine', true);
-
-fis.config.set('deploy', {
-    "publish" : {
-        bcs: {
-            host: 'bcs.duapp.com',
-            ak: 'ak',
-            sk: 'sk',
-            bucket: 'endgame'
-        },
-        to: '/box/' + GAME_ID,
-        replace : {
-            from : 'PLACE_HOLDER/endgame/box/',
-            to : '/endgame/box/'
-        }
-    },
-    "test" : {
-        bcs: {
-            host: 'bcs.duapp.com',
-            ak: 'ak',
-            sk: 'sk',
-            bucket: 'endgamedev'
-        },
-        to: '/box/' + GAME_ID,
-        replace : {
-            from : 'PLACE_HOLDER/endgame/box/',
-            to : '/endgamedev/box/'
-        }
-    }
-});
+```bash
+cd boxgame #进入boxgame目录
+eg init -n buyu
 ```
 
-这个配置中需要关注的是GAME_ID，每个游戏都应该拥有一个独立的GAME_ID
-
-其次是deploy配置中的ak与sk，需要设置为正式环境和测试环境的BCS授权密钥
-
-在完成以上配置后，只需要一条命令就可以完成EndGame的构建、优化与发布
+就可以初始化默认配置，接下来你就可以专注于游戏编写，并且只需要一条命令就可以完成EndGame的构建、优化与发布
 
 ```bash
 eg release -Dopd test #发布至预上线环境
